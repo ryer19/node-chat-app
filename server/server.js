@@ -12,6 +12,18 @@ app.use(express.static(publicPath))
 
 io.on('connection', (socket) => {
   console.log('new user connected')
+  socket.emit('newEmail', {
+    from: 'bsmilesjr@gmail.com',
+    text: 'Hey'
+  });
+  socket.emit('newMessage', {
+    from: 'abe',
+    text: 'four score',
+    createdAt: new Date()
+  })
+  socket.on('createMessage', (message) => {
+    console.log(message)
+  })
   socket.on('disconnect', () => {
     console.log('browser tab closed')
   })
