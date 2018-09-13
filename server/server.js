@@ -21,12 +21,30 @@ io.on('connection', (socket) => {
   //   text: 'four score',
   //   createdAt: new Date()
   // })
+  socket.emit('newMessage', {
+    from: 'admin',
+    text: 'welcome',
+    createdAt: new Date().getTime()
+  })
+  socket.broadcast.emit('newMessage', {
+    from: 'admin',
+    text: 'new user',
+    createdAt: new Date().getTime()
+  })
   socket.on('createMessage', (message) => {
-    io.emit('newMessage', {
-      from: message.from,
-      text: message.text,
-      createdAt: new Date().getTime()
-    })
+
+    // socket.emit emits message to a single connection
+    // io.emit emits message to all connections
+    // io.emit('newMessage', {
+    //   from: message.from,
+    //   text: message.text,
+    //   createdAt: new Date().getTime()
+    // })
+    // socket.broadcast.emit('newMessage', {
+    //   from: message.from,
+    //   text: message.text,
+    //   createdAt: new Date().getTime()
+    // })
   })
   socket.on('disconnect', () => {
     console.log('browser tab closed')
