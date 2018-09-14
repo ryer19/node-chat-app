@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
+const { generateMessage } = require('./utils/message');
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 const app = express();
@@ -21,17 +22,11 @@ io.on('connection', (socket) => {
   //   text: 'four score',
   //   createdAt: new Date()
   // })
-  socket.emit('newMessage', {
-    from: 'admin',
-    text: 'welcome',
-    createdAt: new Date().getTime()
-  })
-  socket.broadcast.emit('newMessage', {
-    from: 'admin',
-    text: 'new user',
-    createdAt: new Date().getTime()
-  })
+  socket.emit('newMessage', generateMessage('Admin', 'Welcome to Chat App'))
+  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined.'))
+
   socket.on('createMessage', (message) => {
+    io.emit('newMessage', generateMessage(message.from, message.text))
 
     // socket.emit emits message to a single connection
     // io.emit emits message to all connections
@@ -51,9 +46,6 @@ io.on('connection', (socket) => {
   })
 
 })
-// app.get('/', () => {
-
-// })
 
 server.listen(port, () => {
   console.log(`listening on port ${port}`)
