@@ -14,3 +14,10 @@ socket.on('newMessage', function (message) {
 
   console.log('new message:' + JSON.stringify(message))
 });
+
+socket.emit('createMessage', {
+  from: 'Frank',
+  text: 'hi'
+}, function (str) {
+  console.log(str)
+})

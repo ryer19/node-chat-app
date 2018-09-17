@@ -25,8 +25,9 @@ io.on('connection', (socket) => {
   socket.emit('newMessage', generateMessage('Admin', 'Welcome to Chat App'))
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined.'))
 
-  socket.on('createMessage', (message) => {
-    io.emit('newMessage', generateMessage(message.from, message.text))
+  socket.on('createMessage', (message, callback) => {
+    io.emit('newMessage', generateMessage(message.from, message.text));
+    callback('This is from the server');
 
     // socket.emit emits message to a single connection
     // io.emit emits message to all connections
