@@ -3,15 +3,18 @@ const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
 const { generateMessage } = require('./utils/message');
+const { createSessionId } = require('./utils/session');
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 const app = express();
-
 const server = http.createServer(app)
 const io = socketIO(server);
+
+
 app.use(express.static(publicPath))
 
 io.on('connection', (socket) => {
+  socket.emit('setSession', createSessionId)
   console.log('new user connected')
   // socket.emit('newEmail', {
   //   from: 'bsmilesjr@gmail.com',
@@ -22,8 +25,9 @@ io.on('connection', (socket) => {
   //   text: 'four score',
   //   createdAt: new Date()
   // })
+
   socket.emit('newMessage', generateMessage('Admin', 'Welcome to Chat App'))
-  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined.'))
+  // socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined.'))
 
   socket.on('createMessage', (message, callback) => {
     io.emit('newMessage', generateMessage(message.from, message.text));

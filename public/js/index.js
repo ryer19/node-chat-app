@@ -9,7 +9,6 @@ socket.on('connect', function () {
 socket.on('disconnect', function () {
   console.log('disconnected from server')
 });
-
 socket.on('newMessage', function (message) {
   if (message.from === "Admin") {
     return
@@ -35,7 +34,7 @@ submitListener.addEventListener('click', function (e) {
   const target = document.getElementById('message');
   const data = target.value;
   console.log(data)
-  console.log('message from socket to follow: ')
+
 
   socket.emit('createMessage', {
     from: 'User',
