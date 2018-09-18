@@ -1,4 +1,5 @@
 var socket = io();
+var ul = document.getElementById('messages');
 socket.on('connect', function () {
   console.log('connected to server')
   // socket.emit('createMessage', {
@@ -13,14 +14,49 @@ socket.on('newMessage', function (message) {
   // if (message.from === "Admin") {
   //   return
   // } else {
-  let ul = document.getElementById('messages');
+  //let ul = document.getElementById('messages');
   let li = document.createElement("li");
   let node = document.createTextNode(`${message.from}: ${message.text}`);
   li.appendChild(node);
   ul.appendChild(li)
-}
-  // }
-);
+});
+socket.on('newLinkMessage', function (message) {
+  // let li = document.createElement("li");
+  // let alink = document.createElement("a");
+  // let linkText = document.createTextNode("Here I am")
+  // alink.appendChild(linkText)
+  // alink.title = "location link";
+
+  // alink.href = message.text;
+  // let textNode = document.createTextNode(`${message.from}:`);
+  // li.appendChild(textNode);
+  // li.appendChild(alink)
+  // ul.appendChild(li)
+
+  let li = document.createElement("li");
+  let alink = document.createElement("a");
+  let linkText = document.createTextNode("Here I am")
+  alink.appendChild(linkText)
+  let title = document.createAttribute("title");
+  title.value = "location link"
+  alink.setAttributeNode(title)
+  // alink.title = "location link";
+  let href = document.createAttribute("href");
+  href.value = message.text;
+  alink.setAttributeNode(href);
+  let target = document.createAttribute("target")
+  target.value = "_blank"
+  alink.setAttributeNode(target)
+  // alink.href = message.text;
+  //att.value = message.text;
+  let textNode = document.createTextNode(`${message.from}:`);
+  li.appendChild(textNode);
+  li.appendChild(alink)
+  ul.appendChild(li)
+
+});
+// }
+
 
 // socket.emit('createMessage', {
 //   from: 'Frank',

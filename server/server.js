@@ -4,6 +4,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const { generateMessage } = require('./utils/message');
 const { createSessionId } = require('./utils/session');
+const { generateAddressLink } = require('./utils/addressLink')
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 const app = express();
@@ -36,7 +37,7 @@ io.on('connection', (socket) => {
   }
   )
   socket.on('createLocationMessage', (coords) => {
-    io.emit('newMessage', generateMessage('Admin', `latitude: ${coords.latitude}, longitude: ${coords.longitude}`))
+    io.emit('newLinkMessage', generateAddressLink('Admin', coords))
   })
 
 
