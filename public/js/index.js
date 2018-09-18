@@ -92,8 +92,10 @@ locationButton.addEventListener('click', function (e) {
       alert('You will need to allow geolocation on your browser.  If you are using Safari, go to Settings>>Privacy>>Location Services>>Safari')
     } else {
       alert(JSON.stringify(err))
-    })
-  console.log('yippee')
+    }
+  })
+
+
   // socket.emit('createLocationMessage', {
   //   blah: 'blah'
   // })
