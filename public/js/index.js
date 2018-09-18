@@ -75,3 +75,16 @@ function sendData(data) {
   console.log(package)
   XHR.send(package);
 }
+
+const locationButton = document.getElementById('send-location');
+locationButton.addEventListener('click', function () {
+  if (!navigator.geolocation) {
+    return alert('Geolocation not supported by your browser.')
+  }
+  navigator.geolocation.getCurrentPosition(function (position) {
+    console.log(position)
+  }, function () {
+    alert('Unable to fetch location')
+  })
+
+})
