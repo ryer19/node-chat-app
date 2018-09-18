@@ -77,26 +77,33 @@ function sendData(data) {
 }
 
 const locationButton = document.getElementById('send-location');
-locationButton.addEventListener('click', function () {
+locationButton.addEventListener('click', function (e) {
+  e.preventDefault();
   if (!navigator.geolocation) {
     return alert('Geolocation not supported by your browser.')
   }
-  // navigator.geolocation.getCurrentPosition(function (position) {
-  //   console.log(position)
-  // }, function () {
-  //   alert('Unable to fetch location')
-  // })
-
-  function storeCoordinates(position) {
+  navigator.geolocation.getCurrentPosition(function (position) {
     socket.emit('createLocationMessage', {
       latitude: position.coords.latitude,
-      longtidue: position.coords.longitude,
+      longitude: position.coords.longitude,
     })
-    let x = 1;
-    let y = 2;
-  }
+  }, function () {
+    alert('Unable to fetch location')
+  })
+  console.log('yippee')
+  // socket.emit('createLocationMessage', {
+  //   blah: 'blah'
+  // })
+  // function storeCoordinates(position) {
+  //   socket.emit('createLocationMessage', {
+  //     latitude: position.coords.latitude,
+  //     longtidue: position.coords.longitude,
+  //   })
+  //   let x = 1;
+  //   let y = 2;
+  // }
 
-  function errorHandler() { console.log('error') }
+  // function errorHandler() { console.log('error') }
 
-  navigator.geolocation.getCurrentPosition(storeCoordinates, errorHandler, { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 });
+  // navigator.geolocation.getCurrentPosition(storeCoordinates, errorHandler, { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 });
 })

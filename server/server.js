@@ -16,7 +16,7 @@ app.use(express.static(publicPath))
 io.on('connection', (socket) => {
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user connected'))
   // socket.emit('setSession', createSessionId)
-  console.log('new user connected')
+  // console.log('new user connected')
   // socket.emit('newEmail', {
   //   from: 'bsmilesjr@gmail.com',
   //   text: 'Hey'
@@ -33,24 +33,26 @@ io.on('connection', (socket) => {
   socket.on('createMessage', (message, callback) => {
     io.emit('newMessage', generateMessage(message.from, message.text));
     callback('This is from the server');
-
-    socket.on('createLocationMessage', (coords) => {
-      io.emit('newMessage', generateMessage('Admin', `latitude: ${coords.latitude}, longitude: ${coords.longitude}`))
-    }
-    )
-    // socket.emit emits message to a single connection
-    // io.emit emits message to all connections
-    // io.emit('newMessage', {
-    //   from: message.from,
-    //   text: message.text,
-    //   createdAt: new Date().getTime()
-    // })
-    // socket.broadcast.emit('newMessage', {
-    //   from: message.from,
-    //   text: message.text,
-    //   createdAt: new Date().getTime()
-    // })
+  }
+  )
+  socket.on('createLocationMessage', (coords) => {
+    io.emit('newMessage', generateMessage('Admin', `latitude: ${coords.latitude}, longitude: ${coords.longitude}`))
   })
+
+
+  // socket.emit emits message to a single connection
+  // io.emit emits message to all connections
+  // io.emit('newMessage', {
+  //   from: message.from,
+  //   text: message.text,
+  //   createdAt: new Date().getTime()
+  // })
+  // socket.broadcast.emit('newMessage', {
+  //   from: message.from,
+  //   text: message.text,
+  //   createdAt: new Date().getTime()
+  // })
+
   socket.on('disconnect', () => {
     socket.emit(
       'newMessage', generateMessage('Admin', 'A user has left the chat'))
