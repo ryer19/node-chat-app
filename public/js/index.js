@@ -88,7 +88,7 @@ locationButton.addEventListener('click', function (e) {
       longitude: position.coords.longitude,
     })
   }, function (err) {
-    alert(err)
+    alert(JSON.stringify(err))
   })
   console.log('yippee')
   // socket.emit('createLocationMessage', {
