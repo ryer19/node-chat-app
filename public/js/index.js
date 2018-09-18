@@ -87,8 +87,8 @@ locationButton.addEventListener('click', function (e) {
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
     })
-  }, function () {
-    alert('Unable to fetch location')
+  }, function (err) {
+    alert(err)
   })
   console.log('yippee')
   // socket.emit('createLocationMessage', {
