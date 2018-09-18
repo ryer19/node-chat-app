@@ -34,6 +34,10 @@ io.on('connection', (socket) => {
     io.emit('newMessage', generateMessage(message.from, message.text));
     callback('This is from the server');
 
+    socket.on('createLocationMessage', (coords) => {
+      io.emit('newMessage', generateMessage('Admin', `latitude: ${coords.latitude}, longitude: ${coords.longitude}`))
+    }
+    )
     // socket.emit emits message to a single connection
     // io.emit emits message to all connections
     // io.emit('newMessage', {

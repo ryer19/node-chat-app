@@ -81,10 +81,22 @@ locationButton.addEventListener('click', function () {
   if (!navigator.geolocation) {
     return alert('Geolocation not supported by your browser.')
   }
-  navigator.geolocation.getCurrentPosition(function (position) {
-    console.log(position)
-  }, function () {
-    alert('Unable to fetch location')
-  })
+  // navigator.geolocation.getCurrentPosition(function (position) {
+  //   console.log(position)
+  // }, function () {
+  //   alert('Unable to fetch location')
+  // })
 
+  function storeCoordinates(position) {
+    socket.emit('createLocationMessage', {
+      latitude: position.coords.latitude,
+      longtidue: position.coords.longitude,
+    })
+    let x = 1;
+    let y = 2;
+  }
+
+  function errorHandler() { console.log('error') }
+
+  navigator.geolocation.getCurrentPosition(storeCoordinates, errorHandler, { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 });
 })
