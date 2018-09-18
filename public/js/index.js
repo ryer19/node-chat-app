@@ -10,16 +10,17 @@ socket.on('disconnect', function () {
   console.log('disconnected from server')
 });
 socket.on('newMessage', function (message) {
-  if (message.from === "Admin") {
-    return
-  } else {
-    let ul = document.getElementById('messages');
-    let li = document.createElement("li");
-    let node = document.createTextNode(message.text);
-    li.appendChild(node);
-    ul.appendChild(li)
-  }
-});
+  // if (message.from === "Admin") {
+  //   return
+  // } else {
+  let ul = document.getElementById('messages');
+  let li = document.createElement("li");
+  let node = document.createTextNode(`${message.from}: ${message.text}`);
+  li.appendChild(node);
+  ul.appendChild(li)
+}
+  // }
+);
 
 // socket.emit('createMessage', {
 //   from: 'Frank',

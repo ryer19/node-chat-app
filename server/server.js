@@ -14,7 +14,8 @@ const io = socketIO(server);
 app.use(express.static(publicPath))
 
 io.on('connection', (socket) => {
-  socket.emit('setSession', createSessionId)
+  socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user connected'))
+  // socket.emit('setSession', createSessionId)
   console.log('new user connected')
   // socket.emit('newEmail', {
   //   from: 'bsmilesjr@gmail.com',
@@ -47,7 +48,8 @@ io.on('connection', (socket) => {
     // })
   })
   socket.on('disconnect', () => {
-    console.log('browser tab closed')
+    socket.emit(
+      'newMessage', generateMessage('Admin', 'A user has left the chat'))
   })
 
 })
