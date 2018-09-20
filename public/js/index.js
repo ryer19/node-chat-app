@@ -70,6 +70,7 @@ submitListener.addEventListener('click', function (e) {
   e.preventDefault();
   const target = document.getElementById('message');
   const data = target.value;
+  target.value = ''
   console.log(data)
 
 
