@@ -14,7 +14,7 @@ socket.on('disconnect', function () {
 
 socket.on('newMessage', function (message) {
   let li = document.createElement("li");
-  let node = document.createTextNode(`${message.from}: ${message.text}`);
+  let node = document.createTextNode(`${message.createdAt}: ${message.from}: ${message.text}`);
   li.appendChild(node);
   ul.appendChild(li)
 });
