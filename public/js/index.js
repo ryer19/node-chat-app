@@ -25,23 +25,34 @@ socket.on('newMessage', function (message) {
 });
 
 socket.on('newLinkMessage', function (message) {
-  let li = document.createElement("li");
-  let alink = document.createElement("a");
-  let linkText = document.createTextNode("Here I am")
-  alink.appendChild(linkText)
-  let title = document.createAttribute("title");
-  title.value = "location link"
-  alink.setAttributeNode(title)
-  let href = document.createAttribute("href");
-  href.value = message.text;
-  alink.setAttributeNode(href);
-  let target = document.createAttribute("target")
-  target.value = "_blank"
-  alink.setAttributeNode(target)
-  let textNode = document.createTextNode(`${message.from}:`);
-  li.appendChild(textNode);
-  li.appendChild(alink)
-  ul.appendChild(li)
+
+  const locationTemplate = document.getElementById('location-message-template').innerHTML;
+
+  const locationData = {
+    from: message.from,
+    url: message.text,
+    createdAt: message.createdAt 
+  }
+  const locationHtml = Mustache.render(locationTemplate, locationData);
+  ul.insertAdjacentHTML('beforeend', locationHtml);
+
+  // let li = document.createElement("li");
+  // let alink = document.createElement("a");
+  // let linkText = document.createTextNode("Here I am")
+  // alink.appendChild(linkText)
+  // let title = document.createAttribute("title");
+  // title.value = "location link"
+  // alink.setAttributeNode(title)
+  // let href = document.createAttribute("href");
+  // href.value = message.text;
+  // alink.setAttributeNode(href);
+  // let target = document.createAttribute("target")
+  // target.value = "_blank"
+  // alink.setAttributeNode(target)
+  // let textNode = document.createTextNode(`${message.from}:`);
+  // li.appendChild(textNode);
+  // li.appendChild(alink)
+  // ul.appendChild(li)
 });
 
 submitListener.addEventListener('click', function (e) {
@@ -56,6 +67,7 @@ submitListener.addEventListener('click', function (e) {
     target.value = ''
   })
 });
+
 
 locationButton.addEventListener('click', function () {
   console.log(locationButton.disabled)
