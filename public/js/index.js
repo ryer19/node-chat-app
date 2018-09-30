@@ -13,10 +13,15 @@ socket.on('disconnect', function () {
 });
 
 socket.on('newMessage', function (message) {
-  let li = document.createElement("li");
-  let node = document.createTextNode(`${message.createdAt}: ${message.from}: ${message.text}`);
-  li.appendChild(node);
-  ul.appendChild(li)
+  const template = document.getElementById('message-template').innerHTML;
+
+  const data = {
+    text: message.text,
+    from: message.from,
+    createdAt: message.createdAt
+  }
+  const html = Mustache.render(template, data);
+  ul.insertAdjacentHTML('beforeend', html);
 });
 
 socket.on('newLinkMessage', function (message) {

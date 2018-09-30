@@ -16,44 +16,20 @@ const io = socketIO(server);
 app.use(express.static(publicPath))
 
 io.on('connection', (socket) => {
+
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user connected'))
-  // socket.emit('setSession', createSessionId)
-  // console.log('new user connected')
-  // socket.emit('newEmail', {
-  //   from: 'bsmilesjr@gmail.com',
-  //   text: 'Hey'
-  // });
-  // socket.emit('newMessage', {
-  //   from: 'abe',
-  //   text: 'four score',
-  //   createdAt: new Date()
-  // })
 
   socket.emit('newMessage', generateMessage('Admin', 'Welcome to Chat App'))
-  // socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined.'))
 
-  socket.on('createMessage', (message, callback) => {
+  socket.on('createMessage', (message, callback) =>
+   {
     io.emit('newMessage', generateMessage(message.from, message.text));
     callback('This is from the server');
-  }
+   }
   )
   socket.on('createLocationMessage', (coords) => {
     io.emit('newLinkMessage', generateAddressLink('Admin', coords))
   })
-
-
-  // socket.emit emits message to a single connection
-  // io.emit emits message to all connections
-  // io.emit('newMessage', {
-  //   from: message.from,
-  //   text: message.text,
-  //   createdAt: new Date().getTime()
-  // })
-  // socket.broadcast.emit('newMessage', {
-  //   from: message.from,
-  //   text: message.text,
-  //   createdAt: new Date().getTime()
-  // })
 
   socket.on('disconnect', () => {
     socket.emit(
