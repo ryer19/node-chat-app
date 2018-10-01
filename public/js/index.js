@@ -2,7 +2,48 @@ const locationButton = document.getElementById('send-location');
 const submitListener = document.getElementById('messageSubmit');
 const target = document.getElementById('message');
 var socket = io();
-var ul = document.getElementById('messages');
+
+// var ul = document.getElementById('messages');
+// console.log('right after ul defined, ul is: '  + JSON.stringify(ul));
+
+
+// function renderMustache(t, d, c){
+//   console.log('renderMustacheFunction')
+//   let html = Mustache.render(t,d)
+//   if (typeof c === "function"){
+//     c()
+//   }
+//   console.log(html)
+//   return html;
+// }
+var newCursorPosition = function (ul) {
+
+  let freshMessage = ul.lastElementChild
+  freshMessage.scrollIntoView({behavior: "smooth"})
+
+  // console.log('newCursorPosition Function')
+  // let ul = document.getElementById('messages');
+  // //let cursorLocation = ul.scrollTop;
+  // let clientView = window.innerHeight;
+  // console.log(clientView)
+  // let scrollHeight = ul.scrollHeight;
+  // let messageHeight = 59;
+  // let lastMessage = ul.lastElementChild
+  // let bottomLastMessage = lastMessage.getBoundingClientRect().bottom;
+  
+  // let totalHeight = cursorLocation + clientView + messageHeight;
+  // let totalHeight = 0;
+ 
+  
+  // console.log(`ul: ${JSON.stringify(ul)}, bottomLastMessage: ${bottomLastMessage}, clientView: ${clientView}, scrollHeight: ${scrollHeight}, totalHeight: ${totalHeight}`)
+  // if (scrollHeight >= clientView) {
+  //   window.scrollTo(0, 230)
+  //   console.log('off page')
+
+    // ul.scrollTop = scrollHeight - clientView - messageHeight;
+
+  }
+
 
 socket.on('connect', function () {
   console.log('connected to server')
@@ -20,8 +61,20 @@ socket.on('newMessage', function (message) {
     from: message.from,
     createdAt: message.createdAt
   }
+  // function callback(html){
+  //   console.log('calledback')
+  //   ul=document.getElementById('messages');
+  //   ul.insertAdjacentHTML('beforeend', html);
+  //   console.log(ul)
+  //   newCursorPosition();
+  // }
+  //renderMustache(template, data, callback);
   const html = Mustache.render(template, data);
+  ul = document.getElementById('messages')
   ul.insertAdjacentHTML('beforeend', html);
+  newCursorPosition(ul);
+
+
 });
 
 socket.on('newLinkMessage', function (message) {
@@ -31,10 +84,12 @@ socket.on('newLinkMessage', function (message) {
   const locationData = {
     from: message.from,
     url: message.text,
-    createdAt: message.createdAt 
+    createdAt: message.createdAt
   }
   const locationHtml = Mustache.render(locationTemplate, locationData);
+  ul = document.getElementById('messages')
   ul.insertAdjacentHTML('beforeend', locationHtml);
+  newCursorPosition(ul);
 
   // let li = document.createElement("li");
   // let alink = document.createElement("a");
