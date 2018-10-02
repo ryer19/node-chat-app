@@ -113,10 +113,10 @@ socket.on('newLinkMessage', function (message) {
 submitListener.addEventListener('click', function (e) {
   e.preventDefault();
   const data = target.value;
-  target.value = ''
-  console.log(data)
+  target.value = '';
+  var userData = JSON.parse(sessionStorage.getItem('user'));
   socket.emit('createMessage', {
-    from: 'User',
+    from: userData.username,
     text: data
   }, function () {
     target.value = ''
