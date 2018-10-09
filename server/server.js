@@ -46,6 +46,12 @@ io.on('connection', (socket) => {
    }
   )
   socket.on('createLocationMessage', (data) => {
+// <<<<<<< HEAD
+// =======
+
+//     io.emit('newLinkMessage', generateAddressLink(data.userName,data.latitude, data.longitude))
+//   })
+// >>>>>>> ecc2c878806586b54eb90d0eb569e914d77d18c7
 
     io.emit('newLinkMessage', generateAddressLink(data.userName,data.latitude, data.longitude))
   })

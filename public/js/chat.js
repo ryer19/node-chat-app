@@ -1,5 +1,5 @@
 const locationButton = document.getElementById('send-location');
-const submitListener = document.getElementById('messageSubmit');
+const messageSubmit = document.getElementById('messageSubmit');
 const target = document.getElementById('message');
 var socket = io();
 
@@ -149,13 +149,13 @@ socket.on('newLinkMessage', function (message) {
   // ul.appendChild(li)
 });
 
-submitListener.addEventListener('click', function (e) {
+messageSubmit.addEventListener('click', function (e) {
   e.preventDefault();
   const data = target.value;
-  target.value = ''
-  console.log(data)
+  target.value = '';
+  let userData = JSON.parse(sessionStorage.getItem('user'));
   socket.emit('createMessage', {
-    from: 'User',
+    from: userData.username,
     text: data
   }, function () {
     target.value = ''
@@ -170,9 +170,10 @@ locationButton.addEventListener('click', function () {
   }
   locationButton.disabled = true;
   navigator.geolocation.getCurrentPosition(function (position) {
-   
+
     locationButton.disabled = false;
     socket.emit('createLocationMessage', {
+      userName: userData.username,
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
     })
