@@ -170,6 +170,7 @@ locationButton.addEventListener('click', function () {
   }
   locationButton.disabled = true;
   navigator.geolocation.getCurrentPosition(function (position) {
+   
     locationButton.disabled = false;
     socket.emit('createLocationMessage', {
       latitude: position.coords.latitude,
