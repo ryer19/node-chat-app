@@ -45,8 +45,9 @@ io.on('connection', (socket) => {
     callback('This is from the server');
    }
   )
-  socket.on('createLocationMessage', (coords) => {
-    io.emit('newLinkMessage', generateAddressLink('Admin', coords))
+  socket.on('createLocationMessage', (data) => {
+
+    io.emit('newLinkMessage', generateAddressLink(data.userName,data.latitude, data.longitude))
   })
 
   socket.on('disconnect', () => {
