@@ -100,24 +100,13 @@ socket.on('newMessage', function (message) {
     from: message.from,
     createdAt: message.createdAt
   }
-  // function callback(html){
-  //   console.log('calledback')
-  //   ul=document.getElementById('messages');
-  //   ul.insertAdjacentHTML('beforeend', html);
-  //   console.log(ul)
-  //   newCursorPosition();
-  // }
-  //renderMustache(template, data, callback);
   const html = Mustache.render(template, data);
   ul = document.getElementById('messages')
   ul.insertAdjacentHTML('beforeend', html);
   newCursorPosition(ul);
-
-
 });
 
 socket.on('newLinkMessage', function (message) {
-
   const locationTemplate = document.getElementById('location-message-template').innerHTML;
 
   const locationData = {
@@ -129,33 +118,14 @@ socket.on('newLinkMessage', function (message) {
   ul = document.getElementById('messages')
   ul.insertAdjacentHTML('beforeend', locationHtml);
   newCursorPosition(ul);
-
-  // let li = document.createElement("li");
-  // let alink = document.createElement("a");
-  // let linkText = document.createTextNode("Here I am")
-  // alink.appendChild(linkText)
-  // let title = document.createAttribute("title");
-  // title.value = "location link"
-  // alink.setAttributeNode(title)
-  // let href = document.createAttribute("href");
-  // href.value = message.text;
-  // alink.setAttributeNode(href);
-  // let target = document.createAttribute("target")
-  // target.value = "_blank"
-  // alink.setAttributeNode(target)
-  // let textNode = document.createTextNode(`${message.from}:`);
-  // li.appendChild(textNode);
-  // li.appendChild(alink)
-  // ul.appendChild(li)
 });
 
 messageSubmit.addEventListener('click', function (e) {
   e.preventDefault();
   const data = target.value;
   target.value = '';
-  let userData = JSON.parse(sessionStorage.getItem('user'));
   socket.emit('createMessage', {
-    from: userData.username,
+    from: 'User',
     text: data
   }, function () {
     target.value = ''
@@ -173,7 +143,7 @@ locationButton.addEventListener('click', function () {
 
     locationButton.disabled = false;
     socket.emit('createLocationMessage', {
-      userName: userData.username,
+      userName: 'User',
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
     })
