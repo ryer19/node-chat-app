@@ -3,6 +3,14 @@ const submitListener = document.getElementById('messageSubmit');
 const target = document.getElementById('message');
 var socket = io();
 
+
+function paramsGetter(uri){
+  let url = new URL(uri);
+  return {
+      name: url.searchParams.get('name'),
+      room: url.searchParams.get('room')
+  }
+}
 // var ul = document.getElementById('messages');
 // console.log('right after ul defined, ul is: '  + JSON.stringify(ul));
 
@@ -43,16 +51,47 @@ var newCursorPosition = function (ul) {
     // ul.scrollTop = scrollHeight - clientView - messageHeight;
 
   }
-
+//   function paramsGetter(uri){
+//     let url = new URL(uri);
+//     return {
+//         name: url.searchParams.get('name'),
+//         room: url.searchParams.get('room')
+//     }
+// }
 
 socket.on('connect', function () {
-  console.log('connected to server')
+  let params = paramsGetter(window.location.href);
+  socket.emit('join', params, function (err){
+    if (err) {
+      alert(err);
+      window.location.href = '/';
+    } else {
+      console.log(params)
+    }
+  })
 });
 
 socket.on('disconnect', function () {
   console.log('disconnected from server')
 });
 
+socket.on('updateUserList', function(users){
+  console.log(`User's List: ${users}`)
+  const userSideBar = document.getElementById('users');
+  if (userSideBar.querySelector('ul')){
+    userSideBar.removeChild(userSideBar.childNodes[0])
+  }
+  let ul = document.createElement('ul');  
+ 
+  users.forEach((user) => {
+    let li = document.createElement('li');
+    let textNode = document.createTextNode(`${user}`);
+    li.append(textNode)
+    ul.appendChild(li)
+  })
+
+  userSideBar.append(ul)
+})
 socket.on('newMessage', function (message) {
   const template = document.getElementById('message-template').innerHTML;
 
