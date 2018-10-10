@@ -8,7 +8,7 @@ const { generateMessage } = require('./utils/message');
 const { createSessionId } = require('./utils/session');
 const { generateAddressLink } = require('./utils/addressLink')
 const { isRealString } = require('./utils/validation')
-const {Users} = require('./utils/users');
+const { Users } = require('./utils/users');
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 const app = express();
@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
 
   socket.on('join', (params, callback) => {
 
-    if (!isRealString(params.name)|| !isRealString(params.room)){
+    if (!isRealString(params.name) || !isRealString(params.room)) {
       return callback('name and room name are required');
     }
 
@@ -33,35 +33,44 @@ io.on('connection', (socket) => {
     users.addUser(socket.id, params.name, params.room);
 
     io.to(params.room).emit('updateUserList', users.getUserList(params.room));
-    
+
     socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has connected.`))
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to Chat App'))
-  
+
     callback();
   })
-  socket.on('createMessage', (message, callback) =>
-   {
-    io.emit('newMessage', generateMessage(message.from, message.text));
+  socket.on('createMessage', (message, callback) => {
+    let user = users.getUser(socket.id);
+
+    if (user && isRealString(message.text)) {
+      io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+
+
+
+      // io.emit('newMessage', generateMessage(user.name, message.text));
+    }
+
     callback('This is from the server');
-   }
+  }
   )
   socket.on('createLocationMessage', (data) => {
-// <<<<<<< HEAD
-// =======
+    // <<<<<<< HEAD
+    // =======
 
-//     io.emit('newLinkMessage', generateAddressLink(data.userName,data.latitude, data.longitude))
-//   })
-// >>>>>>> ecc2c878806586b54eb90d0eb569e914d77d18c7
-
-    io.emit('newLinkMessage', generateAddressLink(data.userName,data.latitude, data.longitude))
+    //     io.emit('newLinkMessage', generateAddressLink(data.userName,data.latitude, data.longitude))
+    //   })
+    // >>>>>>> ecc2c878806586b54eb90d0eb569e914d77d18c7
+    let user = users.getUser(socket.id);
+    console.log(`user: ${user}`)
+    io.emit('newLinkMessage', generateAddressLink(user.name, data.latitude, data.longitude))
   })
   // socket.on('createLocationMessage', (coords) => {
   //   io.emit('newLinkMessage', generateAddressLink('Admin', coords))
   // })
   socket.on('disconnect', () => {
     let user = users.removeUser(socket.id);
-    if(user) {
-      io.to(user.room).emit('updateUserList',users.getUserList(user.room));
+    if (user) {
+      io.to(user.room).emit('updateUserList', users.getUserList(user.room));
       io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left`))
     }
   })

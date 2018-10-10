@@ -66,7 +66,8 @@ socket.on('connect', function () {
       alert(err);
       window.location.href = '/';
     } else {
-      console.log(params)
+      // console.log(params)
+      console.log('nada')
     }
   })
 });
@@ -76,7 +77,7 @@ socket.on('disconnect', function () {
 });
 
 socket.on('updateUserList', function(users){
-  console.log(`User's List: ${users}`)
+  // console.log(`User's List: ${users}`)
   const userSideBar = document.getElementById('users');
   if (userSideBar.querySelector('ul')){
     userSideBar.removeChild(userSideBar.childNodes[0])
@@ -125,7 +126,6 @@ messageSubmit.addEventListener('click', function (e) {
   const data = target.value;
   target.value = '';
   socket.emit('createMessage', {
-    from: 'User',
     text: data
   }, function () {
     target.value = ''
@@ -134,7 +134,7 @@ messageSubmit.addEventListener('click', function (e) {
 
 
 locationButton.addEventListener('click', function () {
-  console.log(locationButton.disabled)
+  // console.log(locationButton.disabled)
   if (!navigator.geolocation) {
     return alert('Geolocation not supported by your browser.')
   }
@@ -143,7 +143,6 @@ locationButton.addEventListener('click', function () {
 
     locationButton.disabled = false;
     socket.emit('createLocationMessage', {
-      userName: 'User',
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
     })
