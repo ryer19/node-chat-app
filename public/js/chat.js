@@ -11,19 +11,7 @@ function paramsGetter(uri){
       room: url.searchParams.get('room')
   }
 }
-// var ul = document.getElementById('messages');
-// console.log('right after ul defined, ul is: '  + JSON.stringify(ul));
 
-
-// function renderMustache(t, d, c){
-//   console.log('renderMustacheFunction')
-//   let html = Mustache.render(t,d)
-//   if (typeof c === "function"){
-//     c()
-//   }
-//   console.log(html)
-//   return html;
-// }
 var newCursorPosition = function (ul) {
 
   let freshMessage = ul.lastElementChild

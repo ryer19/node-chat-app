@@ -5,9 +5,8 @@ const http = require('http');
 const socketIO = require('socket.io');
 const moment = require('moment');
 const { generateMessage } = require('./utils/message');
-
-const { generateAddressLink } = require('./utils/addressLink')
-const { isRealString } = require('./utils/validation')
+const { generateAddressLink } = require('./utils/addressLink');
+const { isRealString } = require('./utils/validation');
 const { Users } = require('./utils/users');
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
@@ -26,6 +25,7 @@ io.on('connection', (socket) => {
     if (!isRealString(params.name) || !isRealString(params.room)) {
       return callback('name and room name are required');
     }
+
     let room = params.room.toUpperCase();
     let currentUserNames = users.getUserList(room);
     if (currentUserNames.includes(params.name)){
@@ -34,6 +34,8 @@ io.on('connection', (socket) => {
     socket.join(room);
     users.removeUser(socket.id);
     users.addUser(socket.id, params.name, room);
+    // let activeUsers = users.getAllUsers()
+    // Array.from(new Set(activeUsers.map( user => user.room )))
     io.to(room).emit('updateUserList', users.getUserList(room));
     socket.broadcast.to(room).emit('newMessage', generateMessage('Admin', `${params.name} has connected.`))
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to Chat App'))
