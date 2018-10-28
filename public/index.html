@@ -17,13 +17,13 @@
 
 <body class="centered-form">
     <div class="centered-form__form">
-        <form action="/chat.html">
+        <form action="/chat.html" autocomplete="false">
             <div class="form-field">
                 <h3>Join A Chat</h3>
             </div>
             <div class="form-field">
-                <label></label>Display name</label>
-                <input type="text" name="name" autofocus/>
+                <label>Display name</label>
+                <input type="text" name="name" id="username" autofocus/>
             </div>
             <div class="form-field">
                 <label>Room Name</label>
@@ -32,14 +32,14 @@
                     <option>Room 2</option>
                     <option>Room 3</option>
                 </select> -->
-                <input type="text" name="room"/>
+                <input type="text" id="roomname" name="room"/>
             </div>
             <div id="submitForm" class="form-field">
                 <button>Join</button>
             </div>
         </form>
     </div>
-
+    <script src='/socket.io/socket.io.js'></script>
     <script src="js/index.js"></script>
 </body>
 

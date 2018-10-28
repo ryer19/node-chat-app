@@ -17,8 +17,16 @@ var users = new Users();
 
 app.use(express.static(publicPath))
 
-io.on('connection', (socket) => {
+const activeUsers = () => {
+  let activeUsers = users.getAllUsers();
+  console.log(`SERVER: - UPON CONNECTION: activeUsers: '${JSON.stringify(activeUsers)}`)
+  let allRooms = activeUsers.length > 0 ? Array.from(new Set(activeUsers.map( user => user.room ))) : [];
+  console.log(`SERVER - UPON CONNECTION: allRooms: '${JSON.stringify(allRooms)}`)
+  return { roomList: allRooms }
+};
 
+io.on('connection', (socket) => {
+  socket.emit('login', activeUsers());
 // JOIN
   socket.on('join', (params, callback) => {
 
