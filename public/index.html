@@ -32,9 +32,9 @@
                 <label>Room name</label>
                 <select id="roomChoice" name="room" style="min-width:10%;">
                     <option></option>
-                    <option value="customOption" id="customOption">[Enter room name]</option>
+                    <option value="customOption" id="customOption">[Enter room name here or select active room below]</option>
                 </select>
-                <input type="text" style="display:none;" name="room" id="customInput" />
+                <input type="text" style="display:none;" name="room" id="customInput"/>
                 <div id="submitForm"
                     class="form-field">
                     <button>Join</button>
@@ -45,8 +45,7 @@
     </div>
     <script src='/socket.io/socket.io.js'></script>
     <script src="js/index.js"></script>
-    <script>
-    </script>
+
 </body>
 
 </html>

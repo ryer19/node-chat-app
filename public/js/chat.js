@@ -17,16 +17,15 @@ var newCursorPosition = function (ul) {
 }
  // CONNECT
 socket.on('connect', function () {
-  console.log('server: in socket.on connect')
   let params = paramsGetter
   (window.location.href);
   socket.emit('join', params, function (err){
     if (err) {
-      alert(err);
       window.location.href = '/';
-    } else {
-      console.log('nada')
-    }
+    } 
+    // else {
+    //   console.log('nada')
+    // }
   })
 });
 // DISCONNECT
@@ -101,8 +100,6 @@ locationButton.addEventListener('click', function () {
   }, function (err) {
     if (JSON.stringify(err) === "{}") {
       alert('You will need to allow geolocation on your browser.  If you are using Safari, go to Settings>>Privacy>>Location Services>>Safari')
-    } else {
-      alert(JSON.stringify(err))
     }
   }
   )

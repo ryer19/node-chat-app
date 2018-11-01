@@ -14,6 +14,9 @@ const submitButt = document.getElementById('submitForm');
 
 let customInput = document.getElementById('customInput')
 
+customInput.addEventListener('dblclick', ()=> {
+  toggleField(customInput, roomChoice)
+})
 
 function toggleField(hideObj,showObj){
   hideObj.disabled=true;        
@@ -25,15 +28,11 @@ function toggleField(hideObj,showObj){
 
 }
 roomChoice.addEventListener('change', function(e){
-
   let roomSelection = roomChoice.options[roomChoice.selectedIndex].innerHTML;
-  if(roomSelection=='[Enter room name]'){
+  if(roomSelection=='[Enter room name here or select active room below]'){
     toggleField(roomChoice,customInput);
     this.selectedIndex='0';
-  } else {
-    alert('not custom: ' + roomChoice.options[roomChoice.selectedIndex].value)
-    console.log("in roomChoice addeventlistener" + roomChoice.options[this.selectedIndex].value)
-  }
+}
 })
 
 
