@@ -1,5 +1,4 @@
 const express = require('express');
-//import express from 'express'
 const path = require('path');
 const http = require('http');
 const socketIO = require('socket.io');
@@ -25,11 +24,12 @@ const activeUsers = () => {
   return { roomList: allRooms }
 };
 
+
 io.on('connection', (socket) => {
   socket.emit('login', activeUsers());
 // JOIN
   socket.on('join', (params, callback) => {
-
+    console.log(`params received by join socket connection ${JSON.stringify(params)}`)
     if (!isRealString(params.name) || !isRealString(params.room)) {
       return callback('name and room name are required');
     }
@@ -42,14 +42,14 @@ io.on('connection', (socket) => {
     socket.join(room);
     users.removeUser(socket.id);
     users.addUser(socket.id, params.name, room);
-    // let activeUsers = users.getAllUsers()
-    // Array.from(new Set(activeUsers.map( user => user.room )))
+
     io.to(room).emit('updateUserList', users.getUserList(room));
     socket.broadcast.to(room).emit('newMessage', generateMessage('Admin', `${params.name} has connected.`))
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to Chat App'))
 
     callback();
   })
+
 
   // CREATE MESSAGE
   socket.on('createMessage', (message, callback) => {
@@ -68,7 +68,7 @@ io.on('connection', (socket) => {
     io.emit('newLinkMessage', generateAddressLink(user.name, data.latitude, data.longitude))
   })
 
-  // DISCONNECT
+  //DISCONNECT
   socket.on('disconnect', () => {
     let user = users.removeUser(socket.id);
     if (user) {

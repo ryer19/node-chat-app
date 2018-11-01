@@ -10,37 +10,43 @@
     <meta name="author" content="">
     <!-- <link rel="icon" href="../../favicon.ico"> -->
     <link rel="stylesheet" href="/css/styles.css">
- 
+
 
     <title>Join | ChatApp</title>
 </head>
 
 <body class="centered-form">
     <div class="centered-form__form">
-        <form action="/chat.html" autocomplete="false">
+        <form action="/chat.html" autocomplete="off" id="fullForm">
+            
             <div class="form-field">
                 <h3>Join A Chat</h3>
             </div>
+
             <div class="form-field">
                 <label>Display name</label>
-                <input type="text" name="name" id="username" autofocus/>
+                <input type="text" name="name" id="name" autofocus />
             </div>
+
             <div class="form-field">
-                <label>Room Name</label>
-                <!-- <select name="roomName" id="roomName">
-                    <option>Room 1</option>
-                    <option>Room 2</option>
-                    <option>Room 3</option>
-                </select> -->
-                <input type="text" id="roomname" name="room"/>
-            </div>
-            <div id="submitForm" class="form-field">
-                <button>Join</button>
-            </div>
+                <label>Room name</label>
+                <select id="roomChoice" name="room" style="min-width:10%;">
+                    <option></option>
+                    <option value="customOption" id="customOption">[Enter room name]</option>
+                </select>
+                <input type="text" style="display:none;" name="room" id="customInput" />
+                <div id="submitForm"
+                    class="form-field">
+                    <button>Join</button>
+                </div>
+        </div>
+
         </form>
     </div>
     <script src='/socket.io/socket.io.js'></script>
     <script src="js/index.js"></script>
+    <script>
+    </script>
 </body>
 
 </html>
